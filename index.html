@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .x {
+        width: 100px;
+        height: 20px;
+        background: green;
+        /*
+          当通过某些因素触发了过渡的属性变化时，才会触发transition变化
+          属性变化除从固有属性到自定义属性的转变
+
+          通过add class
+          style register的形式
+        */
+      }
+
+      .g.b {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- <div class="x g">11111</div> -->
+    <!-- <script>
+      var x = document.querySelector('.x');
+      setTimeout(function () {
+        x.classList.add('g');
+        setTimeout(function () {
+          x.classList.remove('g')
+        }, 1000);
+      }, 1000);
+
+    </script> -->
+  </body>
+</html>
