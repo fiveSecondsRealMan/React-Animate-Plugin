@@ -6,17 +6,48 @@ import React, { Component, PropTypes } from 'react';
 import { replaceTemplate } from '../../utils/index';
 import './slide.less';
 
-function getStyles (props) {
+function getTransitionStyles (props) {
   return {
     transitionProperty: 'height',
-    transitionDuration: replaceTemplate('${transitionDuration}s', props);
-    transitionTimingFunction: replaceTemplate('${}')
+    transitionDuration: replaceTemplate('${transitionDuration}s', props),
+    transitionTimingFunction: replaceTemplate('${transitionTimingFunction}', props)
   };
 }
 
-class SlideAnimate extends Component {
-  constructor() {
+function getEnvirTransitionEvent () {
+  const prefixTransitionStyles = {
+    transition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+    MozTransition: 'mozTransitionEnd'
+  };
+  const node = document.createElement('div');
 
+  for (const key in prefixTransitionStyles) {
+    if (node.style[key] !== undefined) {
+      return prefixTransitionStyles[key];
+    }
+  }
+}
+
+function formatData (arr) {
+  Array.isArray(arr) || (arr = arr.split(','));
+
+}
+
+class Slide extends Component {
+  constructor() {
+    super();
+    this.isAnimating = false;
+  }
+
+  formatChildData() {
+    let { children } = this.props;
+
+    if (!children) {
+      return;
+    }
+
+    Array.isArray(children) || (children = children.split(','));
   }
 
   componentWillMount() {
@@ -28,37 +59,57 @@ class SlideAnimate extends Component {
   }
 
   render() {
+    let { className, children } = this.props;
 
+    if (children) {
+      children = children.map((spreadItem, index) => {
+
+      });
+    }
+
+    return (
+      <div className={ className } style={ getTransitionStyles(this.props) }>
+        { children }
+      </div>
+    );
   }
 }
 
-SlideAnimate.propTypes = {
+Slide.propTypes = {
   /**
    * class name
   */
   className: PropTypes.string,
 
   /**
-   * 插件包裹的组件显、隐状态
+   * 初始展开项的索引
   */
-  isShowComponent: PropTypes.bool,
+  spreadItemIndex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array
+  ]),
 
   /**
-   * slideUp 动作对应在css中的animation name
+   * 展开项的子级dom选择器
   */
-  slideUpName: PropTypes.string,
+  spreadItemChildSelector: PropTypes.string,
 
   /**
-   * slideDown 动作对应在css中的animation name
+   * 动画持续的秒数
   */
-  slideDownName: PropTypes.string
+  transitionDuration: PropTypes.number,
+
+  /**
+   * 动画运行轨迹类型
+  */
+  transitionTimingFunction: PropTypes.string
 };
 
-SlideAnimate.defaultProps = {
+Slide.defaultProps = {
   className: 'slide-animate',
-  isShowComponent: true,
-  slideUpName: 'slideUp',
-  slideDownName: 'slideDown'
+  spreadItemCount: 1,
+  transitionDuration: 0.5,
+  transitionTimingFunction: 'linear'
 };
 
-export default SlideAnimate;
+export default Slide;

@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import { createStore, bindActionCreators } from 'redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import './transition.less';
+import Slide from './plugins/Slide';
 
 // 定义action
 const actionCreator = {
@@ -93,7 +94,37 @@ class Transition extends Component {
   }
 }
 
+
 function render () {
+  ReactDOM.render(
+    <Slide className="aa">
+      <div className="spread">
+        <div className="header">AAAAAAAAAAAAA</div>
+        <div className="main">
+          <span>a</span>
+        </div>
+      </div>
+      <div className="spread">
+        <div className="header">BBBBBBBBBBBB</div>
+        <div className="main">
+          <span>b</span>
+        </div>
+      </div>
+      <div className="spread">
+        <div className="header">CCCCCCCCCCCC</div>
+        <div className="main">
+          <span>c</span>
+        </div>
+      </div>
+    </Slide>,
+    document.getElementById('app')
+  )
+}
+
+render();
+
+
+/*function render () {
   ReactDOM.render(
     <Transition
       data={ store.getState() }
@@ -105,7 +136,7 @@ function render () {
 
 render();
 
-store.subscribe(render);
+store.subscribe(render);*/
 
 /*class Transition extends Component {
   updateDataBy1(item) {
